@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
@@ -22,7 +22,7 @@ export class ProductsService {
   findOne(id: string): Product {
     const product = this.products.find((product) => product.id === id);
     if (!product)
-      throw new BadRequestException(`Product with id ${id} not found`);
+      throw new NotFoundException(`Product with id ${id} not found`);
     return product;
   }
 
@@ -35,7 +35,7 @@ export class ProductsService {
 
   remove(id: string) {
     const product = this.findOne(id);
-    this.products.filter((product) => product.id !== id);
+    this.products = this.products.filter((product) => product.id !== id);
     return product;
   }
 }
